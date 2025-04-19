@@ -1,16 +1,31 @@
 package com.springmessaging.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
 
+@Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class GreetingEntities {
-    //private Long id;
+    @Id
+    private Long id;
     private String message;
+
+    GreetingEntities(String message, Long id) {
+        this.message = message;
+        this.id = id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

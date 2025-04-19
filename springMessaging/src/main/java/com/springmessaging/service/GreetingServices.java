@@ -1,16 +1,28 @@
 package com.springmessaging.service;
 
 import com.springmessaging.entities.GreetingEntities;
+import com.springmessaging.repository.GreetingRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GreetingServices {
 
-    public  GreetingEntities simpleGreet (){
-        return new GreetingEntities("hi Aditi");
+    private final GreetingRepository greetrepo;
+
+    public GreetingServices(GreetingRepository greetrepo) {
+        this.greetrepo = greetrepo;
+    }
+    public List<GreetingEntities> getGreets(){
+        return greetrepo.findAll();
     }
 
-    public GreetingEntities nameGreet (String firstName, String lastName){
-        return new GreetingEntities("Hello "+firstName+" "+lastName.trim());
+    public GreetingEntities savegreet(String firstName, String lastName) {
+        GreetingEntities greetentities = GreetingEntities.builder().message
+                (("Hello "+firstName+" "+lastName).trim()).build();
+        greetrepo.save(greetentities);
+        return greetentities;
+
     }
 }
