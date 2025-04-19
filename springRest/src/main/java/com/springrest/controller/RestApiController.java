@@ -10,6 +10,7 @@ public class RestApiController {
     public String hello() {
         return "Hello Aditi";
     }
+
     @GetMapping("/query")
     public String query(@RequestParam String name) {
         return "Hello query " + name;
@@ -19,6 +20,7 @@ public class RestApiController {
     public String param(@PathVariable String name) {
         return "Hello param" + name;
     }
+
     @PostMapping("/post")
     public String post(@RequestBody UserDto userDTO) {
         return "Hello post " + userDTO.getFirstName() + " " + userDTO.getLastName();
