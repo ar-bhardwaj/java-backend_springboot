@@ -17,16 +17,23 @@ public class GreetingController {
 
     static GreetingEntities message;
 
+        @GetMapping("{id}")
+        public ResponseEntity<GreetingEntities> getbyId(@PathVariable Long id) {
+            return new ResponseEntity<>(greetingServices.findId(id),HttpStatus.OK);
+        }
+
+
+
 //    @GetMapping("/simple")
 //    public ResponseEntity<GreetingEntities> simplegreeting(){
 //        return new ResponseEntity<>(greetingServices.simpleGreet(),HttpStatus.OK );
 //    }
 
-    @GetMapping()
-        public ResponseEntity<List<GreetingEntities>>getGreeting()
-        {
-            return new ResponseEntity<>(greetingServices.getGreets(),HttpStatus.OK);
-        }
+//    @GetMapping()
+//        public ResponseEntity<List<GreetingEntities>>getGreeting()
+//        {
+//            return new ResponseEntity<>(greetingServices.getGreets(),HttpStatus.OK);
+//        }
 
         @PostMapping()
         public ResponseEntity<GreetingEntities>postGreeting(
@@ -36,6 +43,7 @@ public class GreetingController {
         {
             return new ResponseEntity<>(greetingServices.savegreet(firstName,lastName),HttpStatus.OK);
         }
+
     }
 
 //    @PostMapping("/post")
@@ -49,6 +57,7 @@ public class GreetingController {
 //    public String put(@RequestParam String message) {
 //        GreetingController.message = message;
 //        return message;
+
 
 
 

@@ -25,4 +25,7 @@ public class GreetingServices {
         return greetentities;
 
     }
+    public GreetingEntities findId(Long id)  {
+        return greetrepo.findById(id).get();
+    }
 }
