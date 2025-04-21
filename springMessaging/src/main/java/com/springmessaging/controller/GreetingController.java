@@ -15,51 +15,30 @@ public class GreetingController {
     @Autowired
     private GreetingServices greetingServices;
 
-    static GreetingEntities message;
+    //static GreetingEntities message
 
-        @GetMapping("{id}")
-        public ResponseEntity<GreetingEntities> getbyId(@PathVariable Long id) {
-            return new ResponseEntity<>(greetingServices.findId(id),HttpStatus.OK);
-        }
-
-
-
-
-    @GetMapping("/simple")
-    public ResponseEntity<GreetingEntities> simplegreeting(){
-        return new ResponseEntity<>(greetingServices.getsimplegreet(),HttpStatus.OK );
+    @GetMapping("{id}")
+    public ResponseEntity<GreetingEntities> getGreeting(@PathVariable long id) {
+        return new ResponseEntity<>(greetingServices.findId(id), HttpStatus.OK);
     }
 
-//    @GetMapping()
-//        public ResponseEntity<List<GreetingEntities>>getGreeting()
-//        {
-//            return new ResponseEntity<>(greetingServices.getGreets(),HttpStatus.OK);
-//        }
-
-        @PostMapping()
-        public ResponseEntity<GreetingEntities>postGreeting(
-                @RequestParam(value="firstName",defaultValue="")String firstName,
-                @RequestParam(value="lastName",defaultValue = "")String lastName
-        )
-        {
-            return new ResponseEntity<>(greetingServices.savegreet(firstName,lastName),HttpStatus.OK);
-        }
-
+    @PostMapping("/create")
+    public ResponseEntity<GreetingEntities> addGreet(
+            @RequestParam(value = "firstName", defaultValue = "") String firstName,
+            @RequestParam(value = "lastName", defaultValue = "") String lastName
+    ) {
+        return new ResponseEntity<>(greetingServices.savegreet(firstName, lastName), HttpStatus.OK);
     }
 
-//    @PostMapping("/post")
-//    public GreetingEntities post(@RequestParam String name) {
-//        GreetingEntities newMessage = new GreetingEntities("Hello");
-//        GreetingController.message=newMessage;
-//        return newMessage;
-//    }
-
-//    @PutMapping("/put")
-//    public String put(@RequestParam String message) {
-//        GreetingController.message = message;
-//        return message;
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<GreetingEntities> editGreet(
+            @PathVariable long id,
+            @RequestParam(value = "firstName", defaultValue = "") String firstName,
+            @RequestParam(value = "lastName", defaultValue = "") String lastName
+    ) {
+        return new ResponseEntity<>(greetingServices.updateGreet(id, firstName, lastName), HttpStatus.OK);
+    }
 
 
-
-
+}
 

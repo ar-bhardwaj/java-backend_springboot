@@ -19,10 +19,6 @@ public class GreetingServices {
         return GreetingEntities.builder().message("Hello World!").build();
     }
 
-    public List<GreetingEntities> getGreets(){
-        return greetrepo.findAll();
-    }
-
     public GreetingEntities savegreet(String firstName, String lastName) {
         GreetingEntities greetentities = GreetingEntities.builder().message
                 (("Hello "+firstName+" "+lastName).trim()).build();
@@ -32,5 +28,15 @@ public class GreetingServices {
     }
     public GreetingEntities findId(Long id)  {
         return greetrepo.findById(id).get();
+    }
+
+    public GreetingEntities updateGreet(long id, String firstName, String lastName) {
+        if (!greetrepo.existsById(id)) {
+            return null;
+        }
+        GreetingEntities greeting = GreetingEntities.builder().message(("Hello " + firstName + " " + lastName).trim()).build();
+        greeting.setId(id);
+        greetrepo.save(greeting);
+        return greeting;
     }
 }
