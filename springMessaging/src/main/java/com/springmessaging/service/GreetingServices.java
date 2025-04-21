@@ -14,6 +14,11 @@ public class GreetingServices {
     public GreetingServices(GreetingRepository greetrepo) {
         this.greetrepo = greetrepo;
     }
+
+    public GreetingEntities getsimplegreet() {
+        return GreetingEntities.builder().message("Hello World!").build();
+    }
+
     public List<GreetingEntities> getGreets(){
         return greetrepo.findAll();
     }

@@ -24,10 +24,11 @@ public class GreetingController {
 
 
 
-//    @GetMapping("/simple")
-//    public ResponseEntity<GreetingEntities> simplegreeting(){
-//        return new ResponseEntity<>(greetingServices.simpleGreet(),HttpStatus.OK );
-//    }
+
+    @GetMapping("/simple")
+    public ResponseEntity<GreetingEntities> simplegreeting(){
+        return new ResponseEntity<>(greetingServices.getsimplegreet(),HttpStatus.OK );
+    }
 
 //    @GetMapping()
 //        public ResponseEntity<List<GreetingEntities>>getGreeting()
