@@ -39,6 +39,14 @@ public class GreetingController {
         return new ResponseEntity<>(greetingServices.updateGreet(id, firstName, lastName), HttpStatus.OK);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Boolean> deleteGreeting(@PathVariable long id) {
+        if (greetingServices.deleteGreeting(id)){
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+
 
 }
 

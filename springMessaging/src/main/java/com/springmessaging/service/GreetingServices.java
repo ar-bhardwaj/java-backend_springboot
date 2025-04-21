@@ -39,4 +39,13 @@ public class GreetingServices {
         greetrepo.save(greeting);
         return greeting;
     }
+
+    public boolean deleteGreeting(long id) {
+        if (!greetrepo.existsById(id)) {
+            return false;
+        }
+        greetrepo.deleteById(id);
+        greetrepo.flush();
+        return !greetrepo.existsById(id);
+    }
 }
