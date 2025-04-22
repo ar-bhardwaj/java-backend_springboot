@@ -17,27 +17,27 @@ public class UserController {
     private UserService us;
        private static final Logger log = Logger.getLogger(UserController.class.getName());
 
-        @PostMapping("/post")
+    @PostMapping("/post")
     public ResponseEntity<?> post(@RequestBody UserDTO udto) {
-            return us.addUser(udto);
+        return us.addUser(udto);
 
-        }
+    }
 
-        @GetMapping("/view/{id}")
+    @GetMapping("/view/{id}")
     public ResponseEntity<?>view (@PathVariable Long id) {
-            log.info("view user with id " + id);
-            return us.viewUser(id);
-        }
+        log.info("view user with id " + id);
+        return us.viewUser(id);
+    }
 
-        @PutMapping("/put/{id}")
+    @PutMapping("/put/{id}")
     public ResponseEntity<String> put (@PathVariable Long id, @RequestBody UserDTO udto){
-            return us.editUser(id,udto);
-        }
+        return us.editUser(id,udto);
+    }
 
-        @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete (@PathVariable Long id){
-            return us.deleteUser(id);
-        }
+        return us.deleteUser(id);
+    }
 
 
 }

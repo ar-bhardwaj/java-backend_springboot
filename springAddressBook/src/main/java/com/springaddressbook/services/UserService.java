@@ -62,23 +62,23 @@ public class UserService {
     //edit method
     public ResponseEntity<String> editUser(Long id,UserDTO dto) {
         log.info("Request to update a user with id");
-       Optional<UserEntity> opt = urepo.findById(id);
-       if(opt.isPresent()){
-           log.info("User found. Proceeding with update...");
-           UserEntity ue=opt.get();
+        Optional<UserEntity> opt = urepo.findById(id);
+        if(opt.isPresent()){
+            log.info("User found. Proceeding with update...");
+            UserEntity ue=opt.get();
 
-           ue.setName(dto.getName());
-           ue.setAddress(dto.getAddress());
-           ue.setPhone(dto.getPhone());
-           ue.setCity(dto.getCity());
-           urepo.save(ue);
-           log.info("User successfully updated");
-           return new ResponseEntity<>("User edited successfully", HttpStatus.OK);
-       }
-       else{
-           log.info("User not found with id");
-           return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-       }
+            ue.setName(dto.getName());
+            ue.setAddress(dto.getAddress());
+            ue.setPhone(dto.getPhone());
+            ue.setCity(dto.getCity());
+            urepo.save(ue);
+            log.info("User successfully updated");
+            return new ResponseEntity<>("User edited successfully", HttpStatus.OK);
+        }
+        else{
+            log.info("User not found with id");
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     //delete method
