@@ -1,5 +1,6 @@
 package com.springaddressbook.services;
 
+import com.springaddressbook.dto.UserDTO;
 import com.springaddressbook.entities.UserEntity;
 import com.springaddressbook.repository.AddressBookRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -21,22 +22,36 @@ public class UserService {
     private AddressBookRepo urepo;
 
     //add method
-    public ResponseEntity<String> addUser(UserEntity user) {
-        log.info("Attempting to add a new user");
-    urepo.save(user);
-    log.info("User successfully added");
-    return new ResponseEntity<>("User added successfully", HttpStatus.OK);
+    public ResponseEntity<String> addUser(UserDTO dto) {
+        log.info("Adding user"+dto);
+        UserEntity u = new UserEntity();
+        u.setName(dto.getName());
+        u.setAddress(dto.getAddress());
+        u.setCity(dto.getCity());
+        u.setPhone(dto.getPhone());
+        urepo.save(u);
+
+        log.info("User added with dto");
+        return new ResponseEntity<>("User ADDED SUCCESSFULLY",HttpStatus.CREATED);
     }
 
     //view by id method
     public ResponseEntity<?>viewUser(Long id) {
-        log.info("Attempting to view a user");
+        log.info("Attempting to view a user with dto");
+
         Optional<UserEntity> opt = urepo.findById(id);
         if(opt.isPresent()){
-            log.info("User found");
-            UserEntity ue=opt.get();
+            log.info("User found with dto");
+            UserEntity u = opt.get();
+            UserDTO dto = new UserDTO();
+            dto.setId(u.getId());
+            dto.setName(u.getName());
+            dto.setCity(u.getCity());
+            dto.setPhone(u.getPhone());
+            dto.setAddress(u.getAddress());
+            log.info("User viewed with dto");
 
-            return new ResponseEntity<>(ue, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         else{
             log.info("User not found");
@@ -45,16 +60,17 @@ public class UserService {
     }
 
     //edit method
-    public ResponseEntity<String> editUser(Long id,UserEntity user){
+    public ResponseEntity<String> editUser(Long id,UserDTO dto) {
         log.info("Request to update a user with id");
        Optional<UserEntity> opt = urepo.findById(id);
        if(opt.isPresent()){
            log.info("User found. Proceeding with update...");
            UserEntity ue=opt.get();
-           ue.setName(user.getName());
-           ue.setAddress(user.getAddress());
-           ue.setPhone(user.getPhone());
-           ue.setCity(user.getCity());
+
+           ue.setName(dto.getName());
+           ue.setAddress(dto.getAddress());
+           ue.setPhone(dto.getPhone());
+           ue.setCity(dto.getCity());
            urepo.save(ue);
            log.info("User successfully updated");
            return new ResponseEntity<>("User edited successfully", HttpStatus.OK);
@@ -66,13 +82,12 @@ public class UserService {
     }
 
     //delete method
-    public ResponseEntity<String> deleteUser(Long id,UserEntity user) {
+    public ResponseEntity<String> deleteUser(Long id) {
         log.info("Request to delete a user with id");
         Optional<UserEntity> opt = urepo.findById(id);
         if(opt.isPresent()){
             log.info("User found. Proceeding with delete");
-            UserEntity ue=opt.get();
-            urepo.delete(ue);
+            urepo.deleteById(id);
             log.info("User successfully deleted");
             return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
         }
