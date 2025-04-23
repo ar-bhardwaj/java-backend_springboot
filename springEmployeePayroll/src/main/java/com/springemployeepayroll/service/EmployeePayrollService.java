@@ -1,20 +1,19 @@
 package com.springemployeepayroll.service;
 
-
 import com.springemployeepayroll.dto.EmpDTO;
 import com.springemployeepayroll.entities.EmpEntities;
+import com.springemployeepayroll.exception.EmpException;
 import com.springemployeepayroll.repository.EmployeePayrollRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
 @Slf4j
+
 public class EmployeePayrollService {
     @Autowired
     EmployeePayrollRepository er;
@@ -34,39 +33,46 @@ public class EmployeePayrollService {
 
     //edit
     public ResponseEntity<?> updateEmp(Long id, EmpDTO dto) {
-        log.info("Updating employee payroll");
-        Optional<EmpEntities> opt = er.findById(id);
-        if (opt.isPresent()) {
-            EmpEntities e = opt.get();
-            e.setName(dto.getName());
-            e.setSalary(dto.getSalary());
-            er.save(e);
-            log.debug("updated employee payroll");
-            return new ResponseEntity<String>("updated successfully", HttpStatus.OK);
-        }
-        else{
-            log.warn("employee payroll not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try{
+            log.info("Updating employee payroll");
+            Optional<EmpEntities> opt = er.findById(id);
+            if (opt.isPresent()) {
+                EmpEntities e = opt.get();
+                e.setName(dto.getName());
+                e.setSalary(dto.getSalary());
+                er.save(e);
+                log.debug("updated employee payroll");
+                return new ResponseEntity<String>("updated successfully", HttpStatus.OK);
+            }
+            else{
+                log.warn("employee payroll not found");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e){
+            throw new EmpException("Invalid Input "+e.getMessage());
         }
 
     }
 
     //view
     public ResponseEntity<?> viewEmp(Long id) {
-        log.info("Viewing employee payroll");
-        Optional<EmpEntities> opt = er.findById(id);
-        if (opt.isPresent()) {
-            EmpEntities e = opt.get();
-            EmpDTO dto = new EmpDTO();
-            dto.setId(e.getId());
-            dto.setName(e.getName());
-            dto.setSalary(e.getSalary());
+        try {
+            log.info("Viewing employee payroll");
+            Optional<EmpEntities> opt = er.findById(id);
+            if (opt.isPresent()) {
+                EmpEntities e = opt.get();
+                EmpDTO dto = new EmpDTO();
+                dto.setId(e.getId());
+                dto.setName(e.getName());
+                dto.setSalary(e.getSalary());
 
-           return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        else{
-            log.warn("employee payroll not found");
-            return new ResponseEntity<String>("User not Found",HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            } else {
+                log.warn("employee payroll not found");
+                return new ResponseEntity<String>("User not Found", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            throw new EmpException("Invalid Input "+e.getMessage());
         }
     }
 
