@@ -1,8 +1,10 @@
 package com.springemployeepayroll.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class EmpDTO {
 
     private Long id;
