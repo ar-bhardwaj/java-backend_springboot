@@ -1,5 +1,6 @@
 package com.springemployeepayroll.controller;
 
+import com.springemployeepayroll.dto.EmpDTO;
 import com.springemployeepayroll.entities.EmpEntities;
 import com.springemployeepayroll.service.EmployeePayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,9 @@ public class EmployeePayrollController {
      EmployeePayrollService es;
 
     @PostMapping("/post")
-    public ResponseEntity<?> post(@RequestBody EmpEntities emp){
-        return es.addEmp(emp);
+    public ResponseEntity<?> post(@RequestBody EmpDTO dto){
+
+        return es.addEmp(dto);
     }
 
     @GetMapping("/get/{id}")
@@ -24,12 +26,13 @@ public class EmployeePayrollController {
     }
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<?> put(@PathVariable Long id, @RequestBody EmpEntities emp){
-        return es.updateEmp(id, emp);
+    public ResponseEntity<?> put(@PathVariable Long id, @RequestBody EmpDTO dto){
+        return es.updateEmp(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id)
+    {
         return es.deleteEmp(id);
     }
 
