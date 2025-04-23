@@ -2,6 +2,7 @@ package com.springaddressbook.services;
 
 import com.springaddressbook.dto.UserDTO;
 import com.springaddressbook.entities.UserEntity;
+import com.springaddressbook.exception.AddressExpection;
 import com.springaddressbook.repository.AddressBookRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,26 +36,29 @@ public class UserService {
 
     //view by id method
     public ResponseEntity<?>viewUser(Long id) {
-        log.info("Attempting to view a user with dto");
 
-        Optional<UserEntity> opt = urepo.findById(id);
-        if(opt.isPresent()){
-            log.info("User found with dto");
-            UserEntity u = opt.get();
-            UserDTO dto = new UserDTO();
-            dto.setId(u.getId());
-            dto.setName(u.getName());
-            dto.setCity(u.getCity());
-            dto.setPhone(u.getPhone());
-            dto.setAddress(u.getAddress());
-            log.info("User viewed with dto");
+            log.info("Attempting to view a user with dto");
 
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        else{
-            log.info("User not found");
-            return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
-        }
+            Optional<UserEntity> opt = urepo.findById(id);
+               UserEntity exp=opt.orElseThrow(()->new AddressExpection("Invalid User ID"));
+            if(opt.isPresent()){
+                log.info("User found with dto");
+                UserEntity u = opt.get();
+                UserDTO dto = new UserDTO();
+                dto.setId(u.getId());
+                dto.setName(u.getName());
+                dto.setCity(u.getCity());
+                dto.setPhone(u.getPhone());
+                dto.setAddress(u.getAddress());
+                log.info("User viewed with dto");
+
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            }
+            else{
+                log.info("User not found");
+                return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
+            }
+
     }
 
     //edit method
