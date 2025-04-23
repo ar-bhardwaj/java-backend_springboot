@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-//@Slf4j
+@Slf4j
 @Service
 public class UserService {
-
-    private static final Logger log = Logger.getLogger(UserService.class.getName());
 
     @Autowired
     private AddressBookRepo urepo;
